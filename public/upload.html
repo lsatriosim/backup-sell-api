@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Upload</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+    .upload-area { margin-bottom: 30px; padding: 20px; border: 2px dashed #ccc; border-radius: 5px; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+    .image-card { border: 1px solid #ddd; padding: 10px; border-radius: 5px; }
+    .image-card img { max-width: 100%; height: auto; display: block; }
+    .image-actions { margin-top: 10px; display: flex; gap: 10px; }
+    button { cursor: pointer; padding: 5px 10px; }
+    .error { color: red; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <div class="upload-area">
+    <h1>Upload an Image</h1>
+    <form id="uploadForm">
+      <input type="file" id="imageInput" accept=".jpg,.jpeg,.png" required>
+      <button type="submit">Upload</button>
+    </form>
+    <div id="uploadStatus" class="error"></div>
+  </div>
+
+  <div class="gallery" id="imageGallery">
+    <!-- Images will be loaded here -->
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', loadImages);
+    document.getElementById('uploadForm').addEventListener('submit', handleUpload);
+
+    async function loadImages() {
+      try {
+        const response = await fetch('/api/images');
+        const images = await response.json();
+        
+        const gallery = document.getElementById('imageGallery');
+        gallery.innerHTML = '';
+        
+        images.forEach(image => {
+          const card = document.createElement('div');
+          card.className = 'image-card';
+          card.innerHTML = `
+            <img src="${image.url}" alt="${image.name}">
+            <div class="image-actions">
+              <button onclick="copyUrl('${image.url}')">Copy URL</button>
+              <button onclick="deleteImage('${image.name}')">Delete</button>
+            </div>
+          `;
+          gallery.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Error loading images:', err);
+      }
+    }
+
+    async function handleUpload(e) {
+      e.preventDefault();
+      const statusEl = document.getElementById('uploadStatus');
+      statusEl.textContent = '';
+      
+      const fileInput = document.getElementById('imageInput');
+      if (!fileInput.files.length) {
+        statusEl.textContent = 'Please select a file';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+
+      try {
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        if (response.ok) {
+          fileInput.value = '';
+          statusEl.textContent = 'Upload successful!';
+          loadImages();
+        } else {
+          statusEl.textContent = result.error || 'Upload failed';
+        }
+      } catch (err) {
+        console.error('Upload error:', err);
+        statusEl.textContent = 'Upload failed';
+      }
+    }
+
+    async function deleteImage(name) {
+      if (!confirm('Are you sure you want to delete this image?')) return;
+      
+      try {
+        const response = await fetch(`/api/images/${encodeURIComponent(name)}`, {
+          method: 'DELETE'
+        });
+        
+        if (response.ok) {
+          loadImages();
+        } else {
+          alert('Failed to delete image');
+        }
+      } catch (err) {
+        console.error('Delete error:', err);
+        alert('Error deleting image');
+      }
+    }
+
+    function copyUrl(url) {
+      navigator.clipboard.writeText(url)
+        .then(() => alert('URL copied to clipboard!'))
+        .catch(err => console.error('Copy failed:', err));
+    }
+  </script>
+</body>
+</html>
