@@ -10,10 +10,6 @@ exports.verifyAdminToken = (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    
-    if (payload.role !== 'admin') {
-      throw new Error('Not admin');
-    }
     req.user = payload;
     next();
   } catch (err) {

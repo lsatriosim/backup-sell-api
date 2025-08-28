@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import authRoutes from './routes/users';
+import postRoutes from './routes/posts';
 
 interface StorageFile {
     name: string;
@@ -32,6 +33,7 @@ app.use(cookieParser());
 
 // app.use('/api', routes);
 app.use('/api/auth', authRoutes);
+app.use('/api/post', postRoutes);
 
 app.get('/', (_req, res) => {
     res.send('Hello from TypeScript Express!');
