@@ -42,15 +42,13 @@ export class AuthService {
       // Generate JWT token
       const token = this.generateToken({
         id: user.id,
-        email: user.email,
-        role: user.role
+        email: user.email
       });
 
       
       const userResp: UserResponse = {
         email: user.email,
         name: user.name,
-        role: user.role,
         createdAt: new Date(user.created_at),
         updatedAt: new Date(user.updated_at)
       };
@@ -91,7 +89,6 @@ export class AuthService {
       const profile: UserResponse = {
         name: user.name,
         email: user.email,
-        role: user.role,
         createdAt: new Date(user.created_at),
         updatedAt: new Date(user.updated_at || user.created_at),
       };
@@ -102,7 +99,7 @@ export class AuthService {
     }
   }
 
-  private generateToken(payload: { id: string; email: string; role: string }): string {
+  private generateToken(payload: { id: string; email: string; }): string {
     return jwt.sign(
       payload,
       process.env.JWT_SECRET!,

@@ -49,7 +49,7 @@ export class AuthController {
         return res.status(statusCode).json(response);
       }
 
-      res.cookie('token', result.token!, {
+      res.cookie('token', result.authResp?.token!, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
@@ -60,13 +60,8 @@ export class AuthController {
       const response = buildFailed(ERROR_MESSAGES.LOGIN, 'User data not found');
       return res.status(400).json(response); 
     }
-
-      const flattenedData = {
-        token: result.authResp.token,
-        ...result.authResp.user  
-      };
       
-      const response = buildSuccess(SUCCESS_MESSAGES.LOGIN, flattenedData);
+      const response = buildSuccess(SUCCESS_MESSAGES.LOGIN, result.authResp.user);
       res.status(200).json(response);
     } catch (error) {
       const response = buildFailed(ERROR_MESSAGES.LOGIN, 'Internal server error');

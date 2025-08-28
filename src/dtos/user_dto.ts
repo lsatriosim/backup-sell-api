@@ -10,7 +10,6 @@ export interface RegisterUserDto {
   email: string;
   password: string;
   name: string;
-  role: string;
 }
 
 export interface LoginUserDto {
@@ -50,7 +49,6 @@ export interface UserResponse {
   id?: string;
   email?: string;
   name?: string;
-  role?: string;
   isVerified?: boolean;
   createdAt?: Date;
   updatedAt?: Date;

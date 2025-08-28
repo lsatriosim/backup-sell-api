@@ -8,8 +8,7 @@ export class UserRepository {
     email: dto.email,
     password: dto.password,
     user_metadata: {
-      name: dto.name,
-      role: dto.role
+      name: dto.name
     },
     email_confirm: true
   });
@@ -21,7 +20,6 @@ export class UserRepository {
     const user: User = {
       id: data.user.id,
       email: data.user.email!,
-      role: data.user.user_metadata?.role,
       name: data.user.user_metadata?.ame,
       created_at: data.user.created_at,
       updated_at: data.user.updated_at || data.user.created_at
@@ -45,7 +43,6 @@ export class UserRepository {
     const user: User = {
       id: data.user.id,
       email: data.user.email!,
-      role: data.user.user_metadata?.role,
       name: data.user.user_metadata?.name,
       created_at: data.user.created_at,
       updated_at: data.user.updated_at || data.user.created_at
@@ -67,7 +64,6 @@ export class UserRepository {
       id: data.user.id,
       email: data.user.email!,
       name: data.user.user_metadata?.name || '',
-      role: data.user.user_metadata?.role || 'guest',
       created_at: data.user.created_at,
       updated_at: data.user.updated_at || data.user.created_at
     };

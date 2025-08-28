@@ -15,8 +15,6 @@ interface StorageFile {
 const fs = require('fs');
 const supabase = require('./lib/supabaseClient');
 dotenv.config();
-console.log(process.env.NEXT_PUBLIC_SUPABASE_URL);
-console.log(process.env.SUPABASE_ANON_KEY);
 const app = express();
 const PORT = process.env.PORT || 3002;
 const publicPath = path.join(__dirname, '..', 'public');
