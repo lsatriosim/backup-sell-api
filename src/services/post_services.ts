@@ -1,4 +1,4 @@
-import { PostDto, PostItemDto } from "dtos/post_dto";
+import { PostDto, PostItemResponse } from "dtos/post_dto";
 import { PostRepository } from "../repositories/post_repository";
 
 export class PostService {
@@ -11,7 +11,7 @@ export class PostService {
     async createPost(postDto: PostDto): Promise<{
         success: boolean;
         error?: string;
-        data?: PostItemDto;
+        data?: PostItemResponse;
     }> {
         try {
             const { post, error } = await this.postRepository.createPost(postDto);

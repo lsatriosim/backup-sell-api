@@ -1,4 +1,6 @@
 import { StringValidation } from "zod";
+import { UserProfileDto } from "./user_dto";
+import { TimeStamp } from "./response_dto";
 
 export interface CityDTO {
     id: string;
@@ -7,7 +9,7 @@ export interface CityDTO {
 
 export interface RegionDTO {
     id: string;
-    cityId: string; //Foreign key to City
+    city: CityDTO; //Foreign key to City
     name: string;
 }
 
@@ -15,16 +17,23 @@ export interface LocationDTO {
     id: string;
     name: string;
     url: string;
-    regionId: string; //Foreign key to Region
+    region: RegionDTO; //Foreign key to Region
 }
 
 export interface PostDto {
     userId: string; //Foreign key to user
     locationId: string; //Foreign key to Location
+    minPrice: number;
     startDateTime: Date;
     endDateTime: Date;
 }
 
-export interface PostItemDto extends PostDto  {
+export interface PostItemResponse extends PostDto, TimeStamp  {
     id: string;
+    minPrice: number;
+    startDateTime: Date;
+    endDateTime: Date;
+    status: string;
+    location: LocationDTO;
+    user: UserProfileDto;
 }

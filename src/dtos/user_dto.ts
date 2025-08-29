@@ -39,9 +39,10 @@ export interface VerifyEmailDto {
 }
 
 export interface UserProfileDto {
+  userId: string,
   name: string,
   email: string,
-  role: string,
+  phone?: number,
 }
 
 // ============== RESPONSE DTOs ==============

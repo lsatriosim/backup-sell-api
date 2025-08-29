@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PostDto } from "dtos/post_dto";
+import jwt from 'jsonwebtoken';
 import { PostService } from "../services/post_services";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '../constants/user_messages';
 import { buildFailed, buildSuccess } from '../utils/response_builder';
@@ -13,7 +14,12 @@ export class PostController {
 
     createPost = async (req: Request, res: Response) => {
     try {
-      const postDto: PostDto = req.body;
+      const requestBody = req.body;
+      const token = req.cookies.token;
+      const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
+      const userId = payload.id;
+      const status = "OPEN";
+      const postDto = {...requestBody, userId, status}
       const result = await this.postService.createPost(postDto);
       
       if (result.error) {
