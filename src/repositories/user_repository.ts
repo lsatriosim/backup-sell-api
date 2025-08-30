@@ -98,4 +98,18 @@ export class UserRepository {
 
     return { user };
   }
+
+  async logoutUser(): Promise<{ success: boolean; error?: any }> {
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
 }

@@ -116,6 +116,23 @@ export class AuthService {
     }
   }
 
+  async logOut(): Promise<{ 
+    success: boolean; 
+    error?: string 
+  }> {
+    try {
+      const { error: userError } = await this.userRepository.logoutUser();
+      
+      if (userError) {
+        return { success: false, error: 'Failed to logout' };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: 'Failed to logout' };
+    }
+  }
+
   private generateToken(payload: { id: string; email: string; }): string {
     return jwt.sign(
       payload,

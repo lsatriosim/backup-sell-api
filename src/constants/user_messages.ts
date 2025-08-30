@@ -19,6 +19,7 @@ export const SUCCESS_MESSAGES = {
 export const ERROR_MESSAGES = {
   REGISTER_USER: 'Failed to register user',
   LOGIN: 'Failed to login user',
+  LOGOUT: 'Failed to logout',
   GET_USER: 'Failed to get user profile',
   GET_LIST_USER: 'Failed to get users list',
   UPDATE_USER: 'Failed to update user',

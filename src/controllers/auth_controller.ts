@@ -97,10 +97,23 @@ export class AuthController {
     }
   };
 
-  logout = (req: Request, res: Response) => {
-    res.clearCookie('token');
-    const response = buildSuccess(SUCCESS_MESSAGES.LOGOUT);
-    res.status(200).json(response);
+  logout = async (req: Request, res: Response) => {
+    try {
+      const result = await this.authService.logOut();
+
+      if (result.error) {
+        const statusCode = result.error === 'Invalid credentials' ? 401 : 403;
+        const response = buildFailed(ERROR_MESSAGES.LOGOUT, result.error);
+        return res.status(statusCode).json(response);
+      }
+
+      res.clearCookie('token');
+      const response = buildSuccess(SUCCESS_MESSAGES.LOGOUT);
+      res.status(200).json(response);
+    } catch (error) {
+      const response = buildFailed(ERROR_MESSAGES.LOGOUT, 'Failed to logout');
+      res.status(500).json(response);
+    }
   };
 
   getProfile = async (req: Request, res: Response) => {
