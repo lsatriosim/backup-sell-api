@@ -42,3 +42,8 @@ export interface ErrorResponse {
   details?: ValidationError[];
   timestamp: Date;
 }
+
+export interface TimeStamp{
+  createdAt: Date;
+  updatedAt: Date;
+}

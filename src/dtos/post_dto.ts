@@ -17,6 +17,7 @@ export interface LocationDTO {
     id: string;
     name: string;
     url: string;
+    addressDescription: string;
     region: RegionDTO; //Foreign key to Region
 }
 
@@ -35,5 +36,12 @@ export interface PostItemResponse extends PostDto, TimeStamp  {
     endDateTime: Date;
     status: string;
     location: LocationDTO;
-    user: UserProfileDto;
+    seller: UserProfileDto;
+}
+
+// ============== POST Service ==============
+
+export interface GetPostItemServiceResponse {
+    posts: PostItemResponse[];
+    error?: any;
 }

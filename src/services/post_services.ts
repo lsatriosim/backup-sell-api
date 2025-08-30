@@ -31,4 +31,28 @@ export class PostService {
             };
         }
     }
+
+    async getPostList(): Promise<{
+        success: boolean;
+        error?: string;
+        data?: PostItemResponse[];
+    }> {
+        try {
+            const { response } = await this.postRepository.getPostList();
+            if (response.error) {
+                console.log(response.error);
+                return { success: false, error: 'Failed to create post' };
+            }
+
+            return {
+                success: true,
+                data: response.posts,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to create post'
+            };
+        }
+    }
 }

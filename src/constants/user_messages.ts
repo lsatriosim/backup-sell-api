@@ -7,6 +7,9 @@ export const SUCCESS_MESSAGES = {
   UPDATE_USER: 'User updated successfully',
   DELETE_USER: 'User deleted successfully',
   CHECK_AUTH: 'User authentication verified',
+
+  GET_POST_LIST: 'Post list fetched successfully',
+  CREATE_POST: 'Post created successfully',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -17,4 +20,7 @@ export const ERROR_MESSAGES = {
   UPDATE_USER: 'Failed to update user',
   DELETE_USER: 'Failed to delete user',
   UNAUTHORIZED: 'Unauthorized access',
+
+  GET_POST_LIST: 'Failed to get post list',
+  CREATE_POST: 'Failed to create post',
 } as const;
