@@ -14,6 +14,8 @@ export const SUCCESS_MESSAGES = {
   UPDATE_POST: 'Post updated successfully',
   UPDATE_POST_STATUS: 'Post status updated successfully',
   DELETE_POST: 'Post deleted successfully',
+
+  GET_OFFER_LIST: 'Offer list fetched successfully',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -32,4 +34,6 @@ export const ERROR_MESSAGES = {
   UPDATE_POST: 'Failed to update post',
   UPDATE_POST_STATUS: 'Failed to update post status',
   DELETE_POST: 'Failed to delete post',
+
+  GET_OFFER_LIST: 'Failed to get offer list',
 } as const;

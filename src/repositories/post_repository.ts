@@ -2,7 +2,6 @@ import supabase from "../lib/supabaseClient";
 import { CityDTO, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, RegionDTO, UpdatePostDTO, UpdatePostStatusDTO } from "dtos/post_dto";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
 import { UserProfileDto } from "dtos/user_dto";
-import { stat } from "fs";
 
 export class PostRepository {
     async createPost(dto: PostDto): Promise<{ post: PostItemResponse; error?: any }> {
