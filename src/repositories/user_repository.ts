@@ -22,7 +22,8 @@ export class UserRepository {
       email: data.user.email!,
       name: data.user.user_metadata?.ame,
       created_at: data.user.created_at,
-      updated_at: data.user.updated_at || data.user.created_at
+      updated_at: data.user.updated_at || data.user.created_at,
+      phone: data.user.phone
     };
 
     return { 
@@ -45,7 +46,8 @@ export class UserRepository {
       email: data.user.email!,
       name: data.user.user_metadata?.name,
       created_at: data.user.created_at,
-      updated_at: data.user.updated_at || data.user.created_at
+      updated_at: data.user.updated_at || data.user.created_at,
+      phone: data.user.phone
     };
 
     return { 
@@ -63,11 +65,37 @@ export class UserRepository {
     const user: User = {
       id: data.user.id,
       email: data.user.email!,
-      name: data.user.user_metadata?.name || '',
+      name: data.user.user_metadata?.name,
+      created_at: data.user.created_at,
+      updated_at: data.user.updated_at || data.user.created_at,
+      phone: data.user.phone
+    };
+
+    return { user: user as User };
+  }
+
+  async updateUser(userId: string, updates: { name?: string; phone?: string }): 
+    Promise<{ user: User; error?: any }> {
+    const { data, error } = await supabase.auth.admin.updateUserById(userId, {
+      phone: updates.phone,
+      user_metadata: {
+        ...(updates.name && { name: updates.name }),
+      },
+    });
+
+    if (error) {
+      return { user: null as any, error };
+    }
+
+    const user: User = {
+      id: data.user.id,
+      email: data.user.email!,
+      name: data.user.user_metadata?.name,
+      phone: data.user.phone,
       created_at: data.user.created_at,
       updated_at: data.user.updated_at || data.user.created_at
     };
 
-    return { user: user as User };
+    return { user };
   }
 }

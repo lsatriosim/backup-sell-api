@@ -10,5 +10,6 @@ authRoutes.post('/register', authController.register);
 authRoutes.post('/login', authController.login);
 authRoutes.post('/logout', verifyAdminToken, authController.logout);
 authRoutes.get('/profile', authController.getProfile);
+authRoutes.post('/updateProfile', authController.updateProfile);
 
 export default authRoutes;

@@ -27,6 +27,23 @@ export class AuthService {
     }
   }
 
+  async updateUser(userId: string, updates: { name?: string; phone?: string }): Promise<{ success: boolean; error?: string; user?: User}> {
+    try {
+
+      const { user, error: userError } = await this.userRepository.updateUser(userId, updates);
+      if (userError) {
+        return { success: false, error: userError.message };
+      }
+
+      return { 
+        success: true, 
+        user: user,
+      };
+    } catch (error) {
+      return { success: false, error: 'Update Profile failed' };
+    }
+  }
+
   async loginUser(loginDto: LoginUserDto): Promise<{
     success: boolean; 
     token?: string;
