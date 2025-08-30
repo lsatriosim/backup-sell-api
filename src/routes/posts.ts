@@ -7,5 +7,8 @@ const postController = new PostController();
 
 postRoutes.post('/create', verifyAdminToken, postController.createPost);
 postRoutes.get('/list', verifyAdminToken, postController.getPosts);
+postRoutes.get('/my-list', verifyAdminToken, postController.getMyPosts);
+postRoutes.post('/update', verifyAdminToken, postController.updatePost);
+postRoutes.post('/update-status', verifyAdminToken, postController.updatePostStatus);
 
 export default postRoutes;

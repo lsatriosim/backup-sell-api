@@ -51,4 +51,80 @@ export class PostController {
             res.status(500).json(response);
         }
     };
+
+    getMyPosts = async (req: Request, res: Response) => {
+        try {
+            const token = req.cookies.token;
+            const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
+            const userId = payload.id;
+            const result = await this.postService.getMyPosts(userId);
+
+            if (result.error) {
+                const response = buildFailed(ERROR_MESSAGES.GET_MY_POST, result.error);
+                return res.status(400).json(response);
+            }
+
+            const response = buildSuccess(SUCCESS_MESSAGES.GET_MY_POST, result.data);
+            res.status(200).json(response);
+        } catch (error) {
+            const response = buildFailed(ERROR_MESSAGES.GET_MY_POST, 'Internal server error');
+            res.status(500).json(response);
+        }
+    };
+
+    updatePost = async (req: Request, res: Response) => {
+        try {
+            const requestBody = req.body;
+            const token = req.cookies.token;
+            const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
+            const userId = payload.id;
+            
+            if (requestBody.sellerId != userId) {
+                const response = buildFailed(ERROR_MESSAGES.UNAUTHORIZED, 'Unauthorized Access');
+                res.status(403).json(response);
+            }
+
+            const postDto = { ...requestBody }
+            const result = await this.postService.updatePost(postDto);
+
+            if (result.error) {
+                const response = buildFailed(ERROR_MESSAGES.UPDATE_POST, result.error);
+                return res.status(400).json(response);
+            }
+
+            const response = buildSuccess(SUCCESS_MESSAGES.UPDATE_POST, result.data);
+            res.status(200).json(response);
+        } catch (error) {
+            const response = buildFailed(ERROR_MESSAGES.UPDATE_POST, 'Internal server error');
+            res.status(500).json(response);
+        }
+    };
+
+    updatePostStatus = async (req: Request, res: Response) => {
+        try {
+            const requestBody = req.body;
+            const token = req.cookies.token;
+            const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
+            const userId = payload.id;
+            
+            if (requestBody.sellerId != userId) {
+                const response = buildFailed(ERROR_MESSAGES.UNAUTHORIZED, 'Unauthorized Access');
+                res.status(403).json(response);
+            }
+
+            const postDto = { ...requestBody }
+            const result = await this.postService.updatePostStatus(postDto);
+
+            if (result.error) {
+                const response = buildFailed(ERROR_MESSAGES.UPDATE_POST_STATUS, result.error);
+                return res.status(400).json(response);
+            }
+
+            const response = buildSuccess(SUCCESS_MESSAGES.UPDATE_POST_STATUS, result.data);
+            res.status(200).json(response);
+        } catch (error) {
+            const response = buildFailed(ERROR_MESSAGES.UPDATE_POST_STATUS, 'Internal server error');
+            res.status(500).json(response);
+        }
+    };
 }

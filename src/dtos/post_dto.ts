@@ -29,6 +29,21 @@ export interface PostDto {
     endDateTime: Date;
 }
 
+export interface UpdatePostDTO {
+    id: string;
+    sellerId: string;
+    locationId: string; //Foreign key to Location
+    minPrice: number;
+    startDateTime: Date;
+    endDateTime: Date;
+}
+
+export interface UpdatePostStatusDTO {
+    id: string;
+    sellerId: string;
+    status: string;
+}
+
 export interface PostItemResponse extends PostDto, TimeStamp  {
     id: string;
     minPrice: number;

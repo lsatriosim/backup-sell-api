@@ -1,4 +1,4 @@
-import { PostDto, PostItemResponse } from "dtos/post_dto";
+import { PostDto, PostItemResponse, UpdatePostDTO, UpdatePostStatusDTO } from "dtos/post_dto";
 import { PostRepository } from "../repositories/post_repository";
 
 export class PostService {
@@ -52,6 +52,78 @@ export class PostService {
             return {
                 success: false,
                 error: 'Failed to create post'
+            };
+        }
+    }
+
+    async getMyPosts(userId: string): Promise<{
+        success: boolean;
+        error?: string;
+        data?: PostItemResponse[];
+    }> {
+        try {
+            const { response } = await this.postRepository.getMyPosts(userId);
+            if (response.error) {
+                console.log(response.error);
+                return { success: false, error: 'Failed to get my post' };
+            }
+
+            return {
+                success: true,
+                data: response.posts,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to get my post'
+            };
+        }
+    }
+
+    async updatePost(postDto: UpdatePostDTO): Promise<{
+        success: boolean;
+        error?: string;
+        data?: PostItemResponse;
+    }> {
+        try {
+            const { post, error } = await this.postRepository.updatePost(postDto);
+            if (error) {
+                console.log(error);
+                return { success: false, error: 'Failed to update post' };
+            }
+
+            return {
+                success: true,
+                data: post,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to update post'
+            };
+        }
+    }
+
+     async updatePostStatus(postDto: UpdatePostStatusDTO): Promise<{
+        success: boolean;
+        error?: string;
+        data?: PostItemResponse;
+    }> {
+        try {
+            const { post, error } = await this.postRepository.updatePostStatus(postDto);
+            if (error) {
+                console.log(error);
+                return { success: false, error: 'Failed to update post' };
+            }
+
+            return {
+                success: true,
+                data: post,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to update post'
             };
         }
     }

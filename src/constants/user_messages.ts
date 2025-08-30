@@ -10,6 +10,9 @@ export const SUCCESS_MESSAGES = {
 
   GET_POST_LIST: 'Post list fetched successfully',
   CREATE_POST: 'Post created successfully',
+  GET_MY_POST: 'My posts fetched successfully',
+  UPDATE_POST: 'Post updated successfully',
+  UPDATE_POST_STATUS: 'Post status updated successfully',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -23,4 +26,7 @@ export const ERROR_MESSAGES = {
 
   GET_POST_LIST: 'Failed to get post list',
   CREATE_POST: 'Failed to create post',
+  GET_MY_POST: 'Failed to get my posts',
+  UPDATE_POST: 'Failed to update post',
+  UPDATE_POST_STATUS: 'Failed to update post status',
 } as const;
