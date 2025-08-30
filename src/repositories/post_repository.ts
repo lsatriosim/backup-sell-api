@@ -193,4 +193,15 @@ export class PostRepository {
             post: postItem
         };
     }
+
+     async deletePost(postId: string): Promise<{ error?: any }> {
+        const { data, error } = await supabase.from("posts").delete().eq("id", postId);
+
+        if (error) {
+            return { error };
+        }
+
+        return {
+        };
+    }
 }

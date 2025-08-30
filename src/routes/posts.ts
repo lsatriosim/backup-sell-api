@@ -10,5 +10,6 @@ postRoutes.get('/list', verifyAdminToken, postController.getPosts);
 postRoutes.get('/my-list', verifyAdminToken, postController.getMyPosts);
 postRoutes.post('/update', verifyAdminToken, postController.updatePost);
 postRoutes.post('/update-status', verifyAdminToken, postController.updatePostStatus);
+postRoutes.post('/delete', verifyAdminToken, postController.deletePost);
 
 export default postRoutes;

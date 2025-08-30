@@ -127,4 +127,32 @@ export class PostController {
             res.status(500).json(response);
         }
     };
+
+    deletePost = async (req: Request, res: Response) => {
+        try {
+            const requestBody = req.body;
+            const token = req.cookies.token;
+            const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
+            const userId = payload.id;
+            
+            if (requestBody.sellerId != userId) {
+                const response = buildFailed(ERROR_MESSAGES.UNAUTHORIZED, 'Unauthorized Access');
+                res.status(403).json(response);
+            }
+
+            const postId  = requestBody.id
+            const result = await this.postService.deletePost(postId);
+
+            if (result.error) {
+                const response = buildFailed(ERROR_MESSAGES.DELETE_POST, result.error);
+                return res.status(400).json(response);
+            }
+
+            const response = buildSuccess(SUCCESS_MESSAGES.DELETE_POST);
+            res.status(200).json(response);
+        } catch (error) {
+            const response = buildFailed(ERROR_MESSAGES.DELETE_POST, 'Internal server error');
+            res.status(500).json(response);
+        }
+    };
 }

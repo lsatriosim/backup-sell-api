@@ -13,6 +13,7 @@ export const SUCCESS_MESSAGES = {
   GET_MY_POST: 'My posts fetched successfully',
   UPDATE_POST: 'Post updated successfully',
   UPDATE_POST_STATUS: 'Post status updated successfully',
+  DELETE_POST: 'Post deleted successfully',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -29,4 +30,5 @@ export const ERROR_MESSAGES = {
   GET_MY_POST: 'Failed to get my posts',
   UPDATE_POST: 'Failed to update post',
   UPDATE_POST_STATUS: 'Failed to update post status',
+  DELETE_POST: 'Failed to delete post',
 } as const;

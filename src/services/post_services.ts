@@ -127,4 +127,26 @@ export class PostService {
             };
         }
     }
+
+    async deletePost(postId: string): Promise<{
+        success: boolean;
+        error?: string;
+    }> {
+        try {
+            const { error } = await this.postRepository.deletePost(postId);
+            if (error) {
+                console.log(error);
+                return { success: false, error: 'Failed to delete post' };
+            }
+
+            return {
+                success: true
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to delete post'
+            };
+        }
+    }
 }
