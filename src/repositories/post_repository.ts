@@ -155,12 +155,12 @@ export class PostRepository {
             endDateTime: dto.endDateTime
         }
         let postSupabase = toSnakeCase(updatePostRequest);
-        
+
         const { data, error } = await supabase.from("posts").update(
             postSupabase
         )
-        .eq("id", dto.id)
-        .select();
+            .eq("id", dto.id)
+            .select();
 
         if (error) {
             return { post: null as any, error };
@@ -179,8 +179,8 @@ export class PostRepository {
                 status: dto.status
             }
         )
-        .eq("id", dto.id)
-        .select();
+            .eq("id", dto.id)
+            .select();
 
         if (error) {
             return { post: null as any, error };
@@ -193,8 +193,8 @@ export class PostRepository {
         };
     }
 
-     async deletePost(postId: string): Promise<{ error?: any }> {
-        const { data, error } = await supabase.from("posts").delete().eq("id", postId);
+    async deletePost(postId: string): Promise<{ error?: any }> {
+        const { error } = await supabase.from("posts").delete().eq("id", postId);
 
         if (error) {
             return { error };

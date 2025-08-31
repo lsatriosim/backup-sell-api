@@ -17,6 +17,7 @@ export const SUCCESS_MESSAGES = {
 
   GET_OFFER_LIST: 'Offer list fetched successfully',
   CREATE_OFFER: 'Offer created successfully',
+  DELETE_OFFER: 'Offer deleted successfully',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -38,4 +39,5 @@ export const ERROR_MESSAGES = {
 
   GET_OFFER_LIST: 'Failed to get offer list',
   CREATE_OFFER: 'Failed to create offer',
+  DELETE_OFFER: 'Failed to delete offer',
 } as const;

@@ -1,6 +1,5 @@
 import { OfferDTO, OfferItemResponse } from "dtos/offer_dto";
 import { OfferRepository } from "../repositories/offer_repository";
-import { off } from "process";
 
 export class OfferServices {
     private offerRepository: OfferRepository
@@ -33,26 +32,48 @@ export class OfferServices {
     }
 
     async createOffer(offerDTO: OfferDTO): Promise<{
-            success: boolean;
-            error?: string;
-            data?: OfferItemResponse;
-        }> {
-            try {
-                const { offer, error } = await this.offerRepository.createOffer(offerDTO);
-                if (error) {
-                    console.log(error);
-                    return { success: false, error: 'Failed to create offer' };
-                }
-    
-                return {
-                    success: true,
-                    data: offer,
-                };
-            } catch (error) {
-                return {
-                    success: false,
-                    error: 'Failed to create offer'
-                };
+        success: boolean;
+        error?: string;
+        data?: OfferItemResponse;
+    }> {
+        try {
+            const { offer, error } = await this.offerRepository.createOffer(offerDTO);
+            if (error) {
+                console.log(error);
+                return { success: false, error: 'Failed to create offer' };
             }
+
+            return {
+                success: true,
+                data: offer,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to create offer'
+            };
         }
+    }
+
+    async deleteOffer(offerId: string): Promise<{
+        success: boolean;
+        error?: string;
+    }> {
+        try {
+            const { error } = await this.offerRepository.deleteOffer(offerId);
+            if (error) {
+                console.log(error);
+                return { success: false, error: 'Failed to delete offer' };
+            }
+
+            return {
+                success: true
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to delete offer'
+            };
+        }
+    }
 }
