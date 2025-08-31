@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { PostDto } from "dtos/post_dto";
 import jwt from 'jsonwebtoken';
 import { PostService } from "../services/post_services";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '../constants/user_messages';

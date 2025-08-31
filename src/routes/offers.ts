@@ -6,5 +6,6 @@ const offerRoutes = express.Router();
 const offerController = new OfferController();
 
 offerRoutes.get('/list', verifyAdminToken, offerController.getOfferList);
+offerRoutes.post('/create', verifyAdminToken, offerController.createOffer);
 
 export default offerRoutes;

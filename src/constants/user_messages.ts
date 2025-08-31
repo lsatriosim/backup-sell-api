@@ -16,6 +16,7 @@ export const SUCCESS_MESSAGES = {
   DELETE_POST: 'Post deleted successfully',
 
   GET_OFFER_LIST: 'Offer list fetched successfully',
+  CREATE_OFFER: 'Offer created successfully',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -36,4 +37,5 @@ export const ERROR_MESSAGES = {
   DELETE_POST: 'Failed to delete post',
 
   GET_OFFER_LIST: 'Failed to get offer list',
+  CREATE_OFFER: 'Failed to create offer',
 } as const;

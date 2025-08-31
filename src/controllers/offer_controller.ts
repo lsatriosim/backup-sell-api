@@ -16,7 +16,6 @@ export class OfferController {
             const result = await this.offerServices.getOffers(req.body.postId);
 
             if (result.error) {
-                console.log(result.error);
                 const response = buildFailed(ERROR_MESSAGES.GET_OFFER_LIST, result.error);
                 return res.status(400).json(response);
             }
@@ -24,8 +23,29 @@ export class OfferController {
             const response = buildSuccess(SUCCESS_MESSAGES.GET_OFFER_LIST, result.data);
             res.status(200).json(response);
         } catch (error) {
-            console.log("internal server error");
             const response = buildFailed(ERROR_MESSAGES.GET_OFFER_LIST, 'Internal server error');
+            res.status(500).json(response);
+        }
+    };
+
+    createOffer = async (req: Request, res: Response) => {
+        try {
+            const requestBody = req.body;
+            const token = req.cookies.token;
+            const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
+            const userId = payload.id;
+            const offerDTO = { ...requestBody, userId }
+            const result = await this.offerServices.createOffer(offerDTO);
+
+            if (result.error) {
+                const response = buildFailed(ERROR_MESSAGES.CREATE_OFFER, result.error);
+                return res.status(400).json(response);
+            }
+
+            const response = buildSuccess(SUCCESS_MESSAGES.CREATE_OFFER, result.data);
+            res.status(200).json(response);
+        } catch (error) {
+            const response = buildFailed(ERROR_MESSAGES.CREATE_OFFER, 'Internal server error');
             res.status(500).json(response);
         }
     };
