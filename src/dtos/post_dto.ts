@@ -29,6 +29,10 @@ export interface PostDto {
     endDateTime: Date;
 }
 
+export interface UpdatePostSupabaseDTO extends PostDto {
+    updatedAt: Date;
+}
+
 export interface UpdatePostDTO {
     id: string;
     sellerId: string;
@@ -36,12 +40,14 @@ export interface UpdatePostDTO {
     minPrice: number;
     startDateTime: Date;
     endDateTime: Date;
+    updatedAt: Date;
 }
 
 export interface UpdatePostStatusDTO {
     id: string;
     sellerId: string;
     status: string;
+    updatedAt: Date;
 }
 
 export interface PostItemResponse extends PostDto, TimeStamp  {

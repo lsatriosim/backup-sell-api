@@ -11,6 +11,12 @@ export interface OfferItemResponse extends OfferDTO, TimeStamp {
     buyer: UserProfileDto;
 }
 
+export interface OfferUpdateDTO extends OfferDTO {
+    id: string;
+    userId: string;
+    updatedAt: Date;
+}
+
 // ============== Offer Service Response ==============
 
 export interface GetOfferItemServiceResponse {

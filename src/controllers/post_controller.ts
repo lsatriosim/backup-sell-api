@@ -83,7 +83,8 @@ export class PostController {
                 res.status(403).json(response);
             }
 
-            const postDto = { ...requestBody }
+            const updatedAt = new Date().toISOString();
+            const postDto = { ...requestBody, updatedAt }
             const result = await this.postService.updatePost(postDto);
 
             if (result.error) {
@@ -111,7 +112,8 @@ export class PostController {
                 res.status(403).json(response);
             }
 
-            const postDto = { ...requestBody }
+            const updatedAt = new Date().toISOString();
+            const postDto = { ...requestBody, updatedAt }
             const result = await this.postService.updatePostStatus(postDto);
 
             if (result.error) {

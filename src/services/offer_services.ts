@@ -1,4 +1,4 @@
-import { OfferDTO, OfferItemResponse } from "dtos/offer_dto";
+import { OfferDTO, OfferItemResponse, OfferUpdateDTO } from "dtos/offer_dto";
 import { OfferRepository } from "../repositories/offer_repository";
 
 export class OfferServices {
@@ -51,6 +51,30 @@ export class OfferServices {
             return {
                 success: false,
                 error: 'Failed to create offer'
+            };
+        }
+    }
+
+    async updateOffer(offerDTO: OfferUpdateDTO): Promise<{
+        success: boolean;
+        error?: string;
+        data?: OfferItemResponse;
+    }> {
+        try {
+            const { offer, error } = await this.offerRepository.updateOffer(offerDTO);
+            if (error) {
+                console.log(error);
+                return { success: false, error: 'Failed to update offer' };
+            }
+
+            return {
+                success: true,
+                data: offer,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to update offer'
             };
         }
     }

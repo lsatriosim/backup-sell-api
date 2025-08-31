@@ -1,5 +1,5 @@
 import supabase from "../lib/supabaseClient";
-import { CityDTO, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, RegionDTO, UpdatePostDTO, UpdatePostStatusDTO } from "dtos/post_dto";
+import { CityDTO, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, RegionDTO, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
 import { UserProfileDto } from "dtos/user_dto";
 
@@ -147,12 +147,13 @@ export class PostRepository {
     }
 
     async updatePost(dto: UpdatePostDTO): Promise<{ post: PostItemResponse; error?: any }> {
-        let updatePostRequest: PostDto = {
+        let updatePostRequest: UpdatePostSupabaseDTO = {
             userId: dto.sellerId,
             locationId: dto.locationId,
             minPrice: dto.minPrice,
             startDateTime: dto.startDateTime,
-            endDateTime: dto.endDateTime
+            endDateTime: dto.endDateTime,
+            updatedAt: dto.updatedAt
         }
         let postSupabase = toSnakeCase(updatePostRequest);
 

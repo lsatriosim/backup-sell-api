@@ -8,5 +8,6 @@ const offerController = new OfferController();
 offerRoutes.get('/list', verifyAdminToken, offerController.getOfferList);
 offerRoutes.post('/create', verifyAdminToken, offerController.createOffer);
 offerRoutes.post('/delete', verifyAdminToken, offerController.deleteOffer);
+offerRoutes.post('/update', verifyAdminToken, offerController.updateOffer);
 
 export default offerRoutes;

@@ -50,6 +50,33 @@ export class OfferController {
         }
     };
 
+    updateOffer = async (req: Request, res: Response) => {
+        try {
+            const requestBody = req.body;
+            const token = req.cookies.token;
+            const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
+            const userId = payload.id;
+            if (requestBody.userId != userId) {
+                const response = buildFailed(ERROR_MESSAGES.UNAUTHORIZED, 'Unauthorized Access');
+                res.status(403).json(response);
+            }
+            const updatedAt = new Date().toISOString();
+            const offerDTO = { ...requestBody, updatedAt}
+            const result = await this.offerServices.updateOffer(offerDTO);
+
+            if (result.error) {
+                const response = buildFailed(ERROR_MESSAGES.UPDATE_OFFER, result.error);
+                return res.status(400).json(response);
+            }
+
+            const response = buildSuccess(SUCCESS_MESSAGES.UPDATE_OFFER, result.data);
+            res.status(200).json(response);
+        } catch (error) {
+            const response = buildFailed(ERROR_MESSAGES.UPDATE_OFFER, 'Internal server error');
+            res.status(500).json(response);
+        }
+    };
+
     deleteOffer = async (req: Request, res: Response) => {
             try {
                 const requestBody = req.body;

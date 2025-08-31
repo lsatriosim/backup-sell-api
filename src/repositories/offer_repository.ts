@@ -1,4 +1,4 @@
-import { GetOfferItemServiceResponse, OfferDTO, OfferItemResponse } from "dtos/offer_dto";
+import { GetOfferItemServiceResponse, OfferDTO, OfferItemResponse, OfferUpdateDTO } from "dtos/offer_dto";
 import supabase from "../lib/supabaseClient";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
 import { UserProfileDto } from "dtos/user_dto";
@@ -50,6 +50,23 @@ export class OfferRepository {
         const { data, error } = await supabase.from("offers").insert(
             offerSupabase
         ).select();
+
+        if (error) {
+            return { offer: null as any, error };
+        }
+
+        const offerItem: OfferItemResponse = toCamelCase<OfferItemResponse>(data);
+
+        return {
+            offer: offerItem
+        };
+    }
+
+    async updateOffer(dto: OfferUpdateDTO): Promise<{ offer: OfferItemResponse; error?: any }> {
+        let offerSupabase = toSnakeCase(dto);
+        const { data, error } = await supabase.from("offers").update(
+            offerSupabase
+        ).eq("id", dto.id).select();
 
         if (error) {
             return { offer: null as any, error };
