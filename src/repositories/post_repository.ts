@@ -73,6 +73,7 @@ export class PostRepository {
                 status: c.status,
                 location: location,
                 seller: seller,
+                offerCount: c.offerCount,
                 createdAt: new Date(c.createdAt),
                 updatedAt: new Date(c.updatedAt),
             } as unknown as PostItemResponse;
@@ -135,6 +136,7 @@ export class PostRepository {
                 status: c.status,
                 location: location,
                 seller: seller,
+                offerCount: c.offerCount,
                 createdAt: new Date(c.createdAt),
                 updatedAt: new Date(c.updatedAt),
             } as unknown as PostItemResponse;

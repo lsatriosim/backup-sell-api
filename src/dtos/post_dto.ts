@@ -58,6 +58,7 @@ export interface PostItemResponse extends PostDto, TimeStamp  {
     status: string;
     location: LocationDTO;
     seller: UserProfileDto;
+    offerCount: number;
 }
 
 // ============== POST Service ==============
