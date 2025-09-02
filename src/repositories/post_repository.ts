@@ -71,6 +71,7 @@ export class PostRepository {
                 startDateTime: new Date(c.startDateTime),
                 endDateTime: new Date(c.endDateTime),
                 status: c.status,
+                itemCount: c.itemCount,
                 location: location,
                 seller: seller,
                 offerCount: c.offerCount,
@@ -131,6 +132,7 @@ export class PostRepository {
             return {
                 id: c.id,
                 minPrice: c.minPrice,
+                itemCount: c.itemCount,
                 startDateTime: new Date(c.startDateTime),
                 endDateTime: new Date(c.endDateTime),
                 status: c.status,
@@ -153,6 +155,7 @@ export class PostRepository {
             userId: dto.sellerId,
             locationId: dto.locationId,
             minPrice: dto.minPrice,
+            itemCount: dto.itemCount,
             startDateTime: dto.startDateTime,
             endDateTime: dto.endDateTime,
             updatedAt: dto.updatedAt

@@ -4,6 +4,7 @@ import { UserProfileDto } from "./user_dto";
 export interface OfferDTO {
     postId: string; //Foreign key to Post
     price: string;
+    itemCount: number;
 }
 
 export interface OfferItemResponse extends OfferDTO, TimeStamp {

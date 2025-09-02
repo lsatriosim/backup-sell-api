@@ -25,6 +25,7 @@ export interface PostDto {
     userId: string; //Foreign key to user
     locationId: string; //Foreign key to Location
     minPrice: number;
+    itemCount: number;
     startDateTime: Date;
     endDateTime: Date;
 }
@@ -38,6 +39,7 @@ export interface UpdatePostDTO {
     sellerId: string;
     locationId: string; //Foreign key to Location
     minPrice: number;
+    itemCount: number;
     startDateTime: Date;
     endDateTime: Date;
     updatedAt: Date;
@@ -47,6 +49,7 @@ export interface UpdatePostStatusDTO {
     id: string;
     sellerId: string;
     status: string;
+    itemCount: number;
     updatedAt: Date;
 }
 
@@ -56,6 +59,7 @@ export interface PostItemResponse extends PostDto, TimeStamp  {
     startDateTime: Date;
     endDateTime: Date;
     status: string;
+    itemCount: number;
     location: LocationDTO;
     seller: UserProfileDto;
     offerCount: number;
