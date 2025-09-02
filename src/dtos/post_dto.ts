@@ -49,7 +49,6 @@ export interface UpdatePostStatusDTO {
     id: string;
     sellerId: string;
     status: string;
-    itemCount: number;
     updatedAt: Date;
 }
 
