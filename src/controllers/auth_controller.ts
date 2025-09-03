@@ -22,7 +22,6 @@ export class AuthController {
 
   register = async (req: Request, res: Response) => {
     try {
-      console.log(req.body);
       const registerDto: RegisterUserDto = req.body;
       const result = await this.authService.registerUser(registerDto);
 
@@ -30,6 +29,13 @@ export class AuthController {
         const response = buildFailed(ERROR_MESSAGES.REGISTER_USER, result.error);
         return res.status(400).json(response);
       }
+
+      res.cookie('token', result.token!, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 60 * 60 * 1000
+      });
 
       const response = buildSuccess(SUCCESS_MESSAGES.REGISTER_USER, result.user);
       res.status(201).json(response);

@@ -10,17 +10,24 @@ export class AuthService {
     this.userRepository = new UserRepository();
   }
 
-  async registerUser(registerDto: RegisterUserDto): Promise<{ success: boolean; error?: string; user?: User}> {
+  async registerUser(registerDto: RegisterUserDto): Promise<{ success: boolean; error?: string; user?: User, token?: string}> {
     try {
 
       const { user, error: userError } = await this.userRepository.createUser(registerDto);
+
       if (userError) {
         return { success: false, error: userError.message };
       }
 
+      const token = this.generateToken({
+        id: user.id,
+        email: user.email
+      });
+      
       return { 
         success: true, 
         user: user,
+        token: token
       };
     } catch (error) {
       return { success: false, error: 'Registration failed' };

@@ -10,12 +10,18 @@ export class UserRepository {
     user_metadata: {
       name: dto.name
     },
+    phone: dto.phone,
     email_confirm: true
   });
 
     if (error) {
       return { user: null as any, error };
     }
+
+    const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+      email: dto.email,
+      password: dto.password
+    });
 
     const user: User = {
       id: data.user.id,

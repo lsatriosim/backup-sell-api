@@ -33,6 +33,7 @@ export class OfferRepository {
                 id: c.id,
                 postId: c.postId,
                 price: c.price,
+                itemCount: c.itemCount,
                 buyer: buyer,
                 createdAt: new Date(c.createdAt),
                 updatedAt: new Date(c.updatedAt),
