@@ -56,6 +56,29 @@ export class PostService {
         }
     }
 
+    async getPostListByDate(date: Date): Promise<{
+        success: boolean;
+        error?: string;
+        data?: PostItemResponse[];
+    }> {
+        try {
+            const { response } = await this.postRepository.getPostListByDate(date);
+            if (response.error) {
+                return { success: false, error: 'Failed to get post by date' };
+            }
+
+            return {
+                success: true,
+                data: response.posts,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to get post by date'
+            };
+        }
+    }
+
     async getMyPosts(userId: string): Promise<{
         success: boolean;
         error?: string;

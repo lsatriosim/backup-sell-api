@@ -1,7 +1,8 @@
 import supabase from "../lib/supabaseClient";
 import { CityDTO, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, RegionDTO, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
-import { SellerDTO, UserProfileDto } from "dtos/user_dto";
+import { SellerDTO } from "dtos/user_dto";
+import { startOfDay, endOfDay } from "date-fns";
 
 export class PostRepository {
     async createPost(dto: PostDto): Promise<{ post: PostItemResponse; error?: any }> {
@@ -25,6 +26,77 @@ export class PostRepository {
         const { data, error } = await supabase
             .from("posts_with_details")
             .select("*");
+
+        if (error) {
+            const response: GetPostItemServiceResponse = {
+                posts: [],
+                error: error
+            }
+            return { response };
+        }
+
+        const postList: PostItemResponse[] = data.map(row => {
+            const c = toCamelCase<any>(row);
+
+            const city: CityDTO = {
+                id: c.cityId,
+                name: c.cityName
+            }
+
+            const region: RegionDTO = {
+                id: c.cityId,
+                name: c.cityName,
+                city: city
+            }
+
+            const location: LocationDTO = {
+                id: c.locationId,
+                name: c.locationName,
+                url: c.locationUrl,
+                addressDescription: c.locationAddressDescription,
+                region: region
+            }
+
+            const seller: SellerDTO = {
+                id: c.sellerId,
+                name: c.sellerName,
+                email: c.sellerEmail,
+                phone: c.sellerPhone
+            }
+
+            return {
+                id: c.id,
+                minPrice: c.minPrice,
+                startDateTime: new Date(c.startDateTime),
+                endDateTime: new Date(c.endDateTime),
+                status: c.status,
+                itemCount: c.itemCount,
+                location: location,
+                seller: seller,
+                offerCount: c.offerCount,
+                createdAt: new Date(c.createdAt),
+                updatedAt: new Date(c.updatedAt),
+                maxOfferPrice: c.maxOfferPrice,
+                sportType: c.sportType,
+                isBoosted: c.isBoosted
+            } as unknown as PostItemResponse;
+        });
+
+        const response: GetPostItemServiceResponse = {
+            posts: postList
+        }
+        return { response };
+    }
+
+    async getPostListByDate(date: Date): Promise<{ response: GetPostItemServiceResponse }> {
+        const start = startOfDay(date).toISOString();
+        const end = endOfDay(date).toISOString();
+
+        const { data, error } = await supabase
+            .from("posts_with_details")
+            .select("*")
+            .gte("start_date_time", start)
+            .lt("start_date_time", end);
 
         if (error) {
             const response: GetPostItemServiceResponse = {
