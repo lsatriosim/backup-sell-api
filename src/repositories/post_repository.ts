@@ -1,5 +1,6 @@
 import supabase from "../lib/supabaseClient";
-import { CityDTO, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, RegionDTO, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
+import { GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
+import { CityDTO, RegionDTO } from "dtos/location_dto";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
 import { SellerDTO } from "dtos/user_dto";
 import { startOfDay, endOfDay } from "date-fns";

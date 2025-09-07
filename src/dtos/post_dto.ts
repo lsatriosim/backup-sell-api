@@ -1,17 +1,6 @@
-import { StringValidation } from "zod";
 import { UserProfileDto } from "./user_dto";
 import { TimeStamp } from "./response_dto";
-
-export interface CityDTO {
-    id: string;
-    name: string;
-}
-
-export interface RegionDTO {
-    id: string;
-    city: CityDTO; //Foreign key to City
-    name: string;
-}
+import { RegionDTO } from "./location_dto";
 
 export interface LocationDTO {
     id: string;
