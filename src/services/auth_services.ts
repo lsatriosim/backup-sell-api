@@ -113,6 +113,7 @@ export class AuthService {
       const profile: UserResponse = {
         name: user.name,
         email: user.email,
+        phone: user.phone,
         createdAt: new Date(user.created_at),
         updatedAt: new Date(user.updated_at || user.created_at),
       };

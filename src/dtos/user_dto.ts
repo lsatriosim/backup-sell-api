@@ -46,11 +46,19 @@ export interface UserProfileDto {
   phone?: number,
 }
 
+export interface SellerDTO {
+  id: string,
+  name: string,
+  email: string,
+  phone?: number,
+}
+
 // ============== RESPONSE DTOs ==============
 export interface UserResponse {
   id?: string;
   email?: string;
   name?: string;
+  phone?: string;
   isVerified?: boolean;
   createdAt?: Date;
   updatedAt?: Date;

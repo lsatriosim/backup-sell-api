@@ -28,6 +28,7 @@ export interface PostDto {
     itemCount: number;
     startDateTime: Date;
     endDateTime: Date;
+    sportType: string;
 }
 
 export interface UpdatePostSupabaseDTO extends PostDto {
@@ -43,6 +44,7 @@ export interface UpdatePostDTO {
     startDateTime: Date;
     endDateTime: Date;
     updatedAt: Date;
+    sportType: string;
 }
 
 export interface UpdatePostStatusDTO {
@@ -54,14 +56,12 @@ export interface UpdatePostStatusDTO {
 
 export interface PostItemResponse extends PostDto, TimeStamp  {
     id: string;
-    minPrice: number;
-    startDateTime: Date;
-    endDateTime: Date;
     status: string;
-    itemCount: number;
     location: LocationDTO;
     seller: UserProfileDto;
     offerCount: number;
+    maxOfferPrice: number;
+    isBoosted: boolean;
 }
 
 // ============== POST Service ==============

@@ -1,15 +1,13 @@
 import supabase from "../lib/supabaseClient";
 import { CityDTO, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, RegionDTO, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
-import { UserProfileDto } from "dtos/user_dto";
+import { SellerDTO, UserProfileDto } from "dtos/user_dto";
 
 export class PostRepository {
     async createPost(dto: PostDto): Promise<{ post: PostItemResponse; error?: any }> {
         let postSupabase = toSnakeCase(dto);
         const { data, error } = await supabase.from("posts").insert(
-            [
-                postSupabase
-            ]
+            postSupabase
         ).select();
 
         if (error) {
@@ -52,14 +50,14 @@ export class PostRepository {
 
             const location: LocationDTO = {
                 id: c.locationId,
-                name: c.name,
+                name: c.locationName,
                 url: c.locationUrl,
-                addressDescription: c.addressDescription,
+                addressDescription: c.locationAddressDescription,
                 region: region
             }
 
-            const seller: UserProfileDto = {
-                userId: c.sellerId,
+            const seller: SellerDTO = {
+                id: c.sellerId,
                 name: c.sellerName,
                 email: c.sellerEmail,
                 phone: c.sellerPhone
@@ -77,6 +75,9 @@ export class PostRepository {
                 offerCount: c.offerCount,
                 createdAt: new Date(c.createdAt),
                 updatedAt: new Date(c.updatedAt),
+                maxOfferPrice: c.maxOfferPrice,
+                sportType: c.sportType,
+                isBoosted: c.isBoosted
             } as unknown as PostItemResponse;
         });
 
@@ -116,14 +117,14 @@ export class PostRepository {
 
             const location: LocationDTO = {
                 id: c.locationId,
-                name: c.name,
+                name: c.locationName,
                 url: c.locationUrl,
-                addressDescription: c.addressDescription,
+                addressDescription: c.locationAddressDescription,
                 region: region
             }
 
-            const seller: UserProfileDto = {
-                userId: c.sellerId,
+            const seller: SellerDTO = {
+                id: c.sellerId,
                 name: c.sellerName,
                 email: c.sellerEmail,
                 phone: c.sellerPhone
@@ -132,15 +133,18 @@ export class PostRepository {
             return {
                 id: c.id,
                 minPrice: c.minPrice,
-                itemCount: c.itemCount,
                 startDateTime: new Date(c.startDateTime),
                 endDateTime: new Date(c.endDateTime),
                 status: c.status,
+                itemCount: c.itemCount,
                 location: location,
                 seller: seller,
                 offerCount: c.offerCount,
                 createdAt: new Date(c.createdAt),
                 updatedAt: new Date(c.updatedAt),
+                maxOfferPrice: c.maxOfferPrice,
+                sportType: c.sportType,
+                isBoosted: c.isBoosted
             } as unknown as PostItemResponse;
         });
 
@@ -158,7 +162,8 @@ export class PostRepository {
             itemCount: dto.itemCount,
             startDateTime: dto.startDateTime,
             endDateTime: dto.endDateTime,
-            updatedAt: dto.updatedAt
+            updatedAt: dto.updatedAt,
+            sportType: dto.sportType
         }
         let postSupabase = toSnakeCase(updatePostRequest);
 
@@ -182,7 +187,8 @@ export class PostRepository {
     async updatePostStatus(dto: UpdatePostStatusDTO): Promise<{ post: PostItemResponse; error?: any }> {
         const { data, error } = await supabase.from("posts").update(
             {
-                status: dto.status
+                status: dto.status,
+                updated_at: dto.updatedAt
             }
         )
             .eq("id", dto.id)
