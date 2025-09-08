@@ -45,8 +45,8 @@ export class PostRepository {
             }
 
             const region: RegionDTO = {
-                id: c.cityId,
-                name: c.cityName,
+                id: c.regionId,
+                name: c.regionName,
                 city: city
             }
 
@@ -116,8 +116,8 @@ export class PostRepository {
             }
 
             const region: RegionDTO = {
-                id: c.cityId,
-                name: c.cityName,
+                id: c.regionId,
+                name: c.regionName,
                 city: city
             }
 
@@ -183,8 +183,8 @@ export class PostRepository {
             }
 
             const region: RegionDTO = {
-                id: c.cityId,
-                name: c.cityName,
+                id: c.regionId,
+                name: c.regionName,
                 city: city
             }
 
