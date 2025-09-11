@@ -96,6 +96,25 @@ export class PostController {
         }
     };
 
+    getDetailPostById = async (req: Request, res: Response) => {
+        try {
+            const { postId } = req.params;
+
+            const result = await this.postService.getDetailPostById(postId);
+
+            if (result.error) {
+                const response = buildFailed(ERROR_MESSAGES.GET_DETAIL_POST, result.error);
+                return res.status(400).json(response);
+            }
+
+            const response = buildSuccess(SUCCESS_MESSAGES.GET_DETAIL_POST, result.data);
+            res.status(200).json(response);
+        } catch (error) {
+            const response = buildFailed(ERROR_MESSAGES.GET_DETAIL_POST, 'Internal server error');
+            res.status(500).json(response);
+        }
+    };
+
     updatePost = async (req: Request, res: Response) => {
         try {
             const requestBody = req.body;

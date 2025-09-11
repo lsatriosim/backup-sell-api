@@ -1,5 +1,5 @@
 import supabase from "../lib/supabaseClient";
-import { GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
+import { GetPostByIdServiceResponse, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
 import { CityDTO, RegionDTO } from "dtos/location_dto";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
 import { SellerDTO } from "dtos/user_dto";
@@ -156,6 +156,71 @@ export class PostRepository {
 
         const response: GetPostItemServiceResponse = {
             posts: postList
+        }
+        return { response };
+    }
+
+    async getDetailPost(postId: string): Promise<{ response: GetPostByIdServiceResponse }> {
+        const { data, error } = await supabase
+            .from("posts_with_details")
+            .select("*")
+            .eq("id", postId)
+            .single();
+
+        if (error) {
+            const response: GetPostByIdServiceResponse = {
+                error: error
+            }
+            return { response };
+        }
+
+        const postConverted = toCamelCase<any>(data);
+
+        const city: CityDTO = {
+            id: postConverted.cityId,
+            name: postConverted.cityName
+        }
+
+        const region: RegionDTO = {
+            id: postConverted.regionId,
+            name: postConverted.regionName,
+            city: city
+        }
+
+        const location: LocationDTO = {
+            id: postConverted.locationId,
+            name: postConverted.locationName,
+            url: postConverted.locationUrl,
+            addressDescription: postConverted.locationAddressDescription,
+            region: region
+        }
+
+        const seller: SellerDTO = {
+            id: postConverted.sellerId,
+            name: postConverted.sellerName,
+            email: postConverted.sellerEmail,
+            phone: postConverted.sellerPhone
+        }
+
+        const postItem: PostItemResponse = {
+            id: postConverted.id,
+            minPrice: postConverted.minPrice,
+            startDateTime: new Date(postConverted.startDateTime),
+            endDateTime: new Date(postConverted.endDateTime),
+            status: postConverted.status,
+            itemCount: postConverted.itemCount,
+            location: location,
+            seller: seller,
+            offerCount: postConverted.offerCount,
+            createdAt: new Date(postConverted.createdAt),
+            updatedAt: new Date(postConverted.updatedAt),
+            maxOfferPrice: postConverted.maxOfferPrice,
+            sportType: postConverted.sportType,
+            isBoosted: postConverted.isBoosted
+        }
+
+        const response: GetPostByIdServiceResponse = {
+            post: postItem
         }
         return { response };
     }

@@ -1,4 +1,4 @@
-import { UserProfileDto } from "./user_dto";
+import { SellerDTO, UserProfileDto } from "./user_dto";
 import { TimeStamp } from "./response_dto";
 import { RegionDTO } from "./location_dto";
 
@@ -43,19 +43,29 @@ export interface UpdatePostStatusDTO {
     updatedAt: Date;
 }
 
-export interface PostItemResponse extends PostDto, TimeStamp  {
+export interface PostItemResponse extends TimeStamp  {
     id: string;
     status: string;
     location: LocationDTO;
-    seller: UserProfileDto;
+    seller: SellerDTO;
     offerCount: number;
     maxOfferPrice: number;
     isBoosted: boolean;
+    minPrice: number;
+    itemCount: number;
+    startDateTime: Date;
+    endDateTime: Date;
+    sportType: string;
 }
 
 // ============== POST Service ==============
 
 export interface GetPostItemServiceResponse {
     posts: PostItemResponse[];
+    error?: any;
+}
+
+export interface GetPostByIdServiceResponse {
+    post?: PostItemResponse;
     error?: any;
 }

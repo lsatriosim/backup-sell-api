@@ -103,6 +103,29 @@ export class PostService {
         }
     }
 
+    async getDetailPostById(postId: string): Promise<{
+        success: boolean;
+        error?: string;
+        data?: PostItemResponse;
+    }> {
+        try {
+            const { response } = await this.postRepository.getDetailPost(postId);
+            if (response.error) {
+                return { success: false, error: 'Failed to get post detail' };
+            }
+
+            return {
+                success: true,
+                data: response.post,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to get post detail'
+            };
+        }
+    }
+
     async updatePost(postDto: UpdatePostDTO): Promise<{
         success: boolean;
         error?: string;
