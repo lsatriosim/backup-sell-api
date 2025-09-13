@@ -16,6 +16,7 @@ export class OfferServices {
         try {
             const { response } = await this.offerRepository.getOfferList(postId);
             if (response.error) {
+                console.log(response.error);
                 return { success: false, error: 'Failed to get offer list' };
             }
 
@@ -24,6 +25,7 @@ export class OfferServices {
                 data: response.offers,
             };
         } catch (error) {
+            console.log(error);
             return {
                 success: false,
                 error: 'Failed to get offer list'

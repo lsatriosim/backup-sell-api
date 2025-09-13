@@ -13,7 +13,8 @@ export class OfferController {
 
     getOfferList = async (req: Request, res: Response) => {
         try {
-            const result = await this.offerServices.getOffers(req.body.postId);
+            const { postId } = req.params;
+            const result = await this.offerServices.getOffers(postId);
 
             if (result.error) {
                 const response = buildFailed(ERROR_MESSAGES.GET_OFFER_LIST, result.error);
