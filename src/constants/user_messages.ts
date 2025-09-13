@@ -22,6 +22,7 @@ export const SUCCESS_MESSAGES = {
   DELETE_OFFER: 'Offer deleted successfully',
 
   GET_CITIES_BY_REGION: 'Cities by region fetched successfully',
+  GET_LOCATION_LIST: 'Location list fetched successfully',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -48,4 +49,5 @@ export const ERROR_MESSAGES = {
   DELETE_OFFER: 'Failed to delete offer',
 
   GET_CITIES_BY_REGION: 'Failed to get cities by region',
+  GET_LOCATION_LIST: 'Failed to get location list',
 } as const;

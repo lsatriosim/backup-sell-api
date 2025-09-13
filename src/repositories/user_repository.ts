@@ -3,7 +3,7 @@ import { RegisterUserDto, LoginUserDto } from '../dtos/user_dto';
 import { User } from '../entities/user_entity';
 
 export class UserRepository {
-  async createUser(dto: RegisterUserDto): Promise<{ user: User; error?: any }> {
+  async createUser(dto: RegisterUserDto): Promise<{ user: User; accessToken?: string; error?: any }> {
     const { data, error } = await supabase.auth.admin.createUser({
     email: dto.email,
     password: dto.password,
@@ -14,14 +14,14 @@ export class UserRepository {
     email_confirm: true
   });
 
-    if (error) {
-      return { user: null as any, error };
-    }
-
     const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
       email: dto.email,
       password: dto.password
     });
+
+     if (loginError || error) {
+      return { user: null as any, error };
+    }
 
     const user: User = {
       id: data.user.id,
@@ -33,11 +33,12 @@ export class UserRepository {
     };
 
     return { 
-      user: user
+      user: user,
+      accessToken: loginData.session.access_token
     };
   }
 
-  async signInUser(dto: LoginUserDto): Promise<{ user: User; error?: any }> {
+  async signInUser(dto: LoginUserDto): Promise<{ user: User; accessToken?: string; error?: any }> {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: dto.email,
       password: dto.password
@@ -57,13 +58,13 @@ export class UserRepository {
     };
 
     return { 
-      user: user 
+      user: user,
+      accessToken: data.session.access_token
     };
   }
 
-  async getUserById(userId: string): Promise<{ user: User; error?: any }> {
-    const { data, error } = await supabase.auth.admin.getUserById(userId);
-
+  async getUserById(jwtToken: string): Promise<{ user: User; error?: any }> {
+    const { data, error } = await supabase.auth.getUser(jwtToken);
     if (error) {
       return { user: null as any, error };
     }

@@ -27,4 +27,21 @@ export class LocationController {
             res.status(500).json(response);
         }
     };
+
+    getLocationList = async (req: Request, res: Response) => {
+        try {
+            const result = await this.locationServices.getLocationList();
+
+            if (result.error) {
+                const response = buildFailed(ERROR_MESSAGES.GET_CITIES_BY_REGION, result.error);
+                return res.status(400).json(response);
+            }
+
+            const response = buildSuccess(SUCCESS_MESSAGES.GET_CITIES_BY_REGION, result.data);
+            res.status(200).json(response);
+        } catch (error) {
+            const response = buildFailed(ERROR_MESSAGES.GET_CITIES_BY_REGION, 'Internal server error');
+            res.status(500).json(response);
+        }
+    };
 }

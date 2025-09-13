@@ -23,4 +23,17 @@ export class LocationRepository {
         return { cities: data };
     }
 
+    async getLocationList() {
+        const { data, error } = await supabase
+            .from("locations")
+            .select(`id, name, address_description`);
+
+        const convertedData = toCamelCase(data);
+
+        if (error) {
+            return { locations: [], error };
+        }
+
+        return { locations: convertedData };
+    }
 }

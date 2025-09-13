@@ -13,7 +13,7 @@ export class AuthService {
   async registerUser(registerDto: RegisterUserDto): Promise<{ success: boolean; error?: string; user?: User, token?: string}> {
     try {
 
-      const { user, error: userError } = await this.userRepository.createUser(registerDto);
+      const { user, accessToken, error: userError } = await this.userRepository.createUser(registerDto);
 
       if (userError) {
         return { success: false, error: userError.message };
@@ -21,7 +21,8 @@ export class AuthService {
 
       const token = this.generateToken({
         id: user.id,
-        email: user.email
+        email: user.email,
+        accessToken: accessToken ?? ""
       });
       
       return { 
@@ -58,7 +59,7 @@ export class AuthService {
     authResp?: AuthResponse;
   }> {
     try {
-      const { user, error: authError } = await this.userRepository.signInUser(loginDto);
+      const { user, accessToken, error: authError } = await this.userRepository.signInUser(loginDto);
       if (authError) {
         return { success: false, error: 'Invalid credentials'};
       }
@@ -66,7 +67,8 @@ export class AuthService {
       // Generate JWT token
       const token = this.generateToken({
         id: user.id,
-        email: user.email
+        email: user.email,
+        accessToken: accessToken ?? ""
       });
 
       
@@ -102,9 +104,9 @@ export class AuthService {
     try {
 
       const payload = jwt.verify(token, process.env.JWT_SECRET!) as any;
-      const userId = payload.id;
+      const accessToken = payload.accessToken;
 
-      const { user, error: userError } = await this.userRepository.getUserById(userId);
+      const { user, error: userError } = await this.userRepository.getUserById(accessToken);
       
       if (userError) {
         return { success: false, error: 'Profile not found' };
@@ -141,7 +143,7 @@ export class AuthService {
     }
   }
 
-  private generateToken(payload: { id: string; email: string; }): string {
+  private generateToken(payload: { id: string; email: string; accessToken: string }): string {
     return jwt.sign(
       payload,
       process.env.JWT_SECRET!,

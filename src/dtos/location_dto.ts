@@ -14,6 +14,12 @@ export interface Region {
     name: string;
 }
 
+export interface LocationListItemResponse {
+    id: string;
+    name: string;
+    addressDescription: string;
+}
+
 export interface CityRegionFilterOption {
     id: string;
     name: string;

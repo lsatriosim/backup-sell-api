@@ -99,9 +99,7 @@ export class PostRepository {
             .gte("start_date_time", start)
             .lt("start_date_time", end);
 
-        console.log("getting post detail");
         if (error) {
-            console.log(error);
             const response: GetPostItemServiceResponse = {
                 posts: [],
                 error: error

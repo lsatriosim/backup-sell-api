@@ -5,14 +5,12 @@ import { UserProfileDto } from "dtos/user_dto";
 
 export class OfferRepository {
     async getOfferList(postId: string): Promise<{ response: GetOfferItemServiceResponse }> {
-        console.log(postId);
         const { data, error } = await supabase
             .from("offers_with_details")
             .select("*")
             .eq("post_id", postId);
 
         if (error) {
-            console.log(error);
             const response: GetOfferItemServiceResponse = {
                 offers: [],
                 error: error
