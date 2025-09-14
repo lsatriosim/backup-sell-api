@@ -16,7 +16,6 @@ export class PostService {
         try {
             const { post, error } = await this.postRepository.createPost(postDto);
             if (error) {
-                console.log(error);
                 return { success: false, error: 'Failed to create post' };
             }
 
@@ -40,7 +39,6 @@ export class PostService {
         try {
             const { response } = await this.postRepository.getPostList();
             if (response.error) {
-                console.log(response.error);
                 return { success: false, error: 'Failed to create post' };
             }
 
@@ -87,7 +85,6 @@ export class PostService {
         try {
             const { response } = await this.postRepository.getMyPosts(userId);
             if (response.error) {
-                console.log(response.error);
                 return { success: false, error: 'Failed to get my post' };
             }
 
@@ -134,7 +131,6 @@ export class PostService {
         try {
             const { post, error } = await this.postRepository.updatePost(postDto);
             if (error) {
-                console.log(error);
                 return { success: false, error: 'Failed to update post' };
             }
 
@@ -158,7 +154,6 @@ export class PostService {
         try {
             const { post, error } = await this.postRepository.updatePostStatus(postDto);
             if (error) {
-                console.log(error);
                 return { success: false, error: 'Failed to update post' };
             }
 
@@ -181,7 +176,6 @@ export class PostService {
         try {
             const { error } = await this.postRepository.deletePost(postId);
             if (error) {
-                console.log(error);
                 return { success: false, error: 'Failed to delete post' };
             }
 

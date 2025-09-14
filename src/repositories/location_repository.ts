@@ -17,6 +17,7 @@ export class LocationRepository {
     `);
 
         if (error) {
+            console.log(error);
             return { cities: [], error };
         }
 

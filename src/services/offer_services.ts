@@ -16,7 +16,6 @@ export class OfferServices {
         try {
             const { response } = await this.offerRepository.getOfferList(postId);
             if (response.error) {
-                console.log(response.error);
                 return { success: false, error: 'Failed to get offer list' };
             }
 
@@ -25,7 +24,6 @@ export class OfferServices {
                 data: response.offers,
             };
         } catch (error) {
-            console.log(error);
             return {
                 success: false,
                 error: 'Failed to get offer list'
@@ -41,7 +39,6 @@ export class OfferServices {
         try {
             const { offer, error } = await this.offerRepository.createOffer(offerDTO);
             if (error) {
-                console.log(error);
                 return { success: false, error: 'Failed to create offer' };
             }
 
@@ -65,7 +62,6 @@ export class OfferServices {
         try {
             const { offer, error } = await this.offerRepository.updateOffer(offerDTO);
             if (error) {
-                console.log(error);
                 return { success: false, error: 'Failed to update offer' };
             }
 
@@ -88,7 +84,6 @@ export class OfferServices {
         try {
             const { error } = await this.offerRepository.deleteOffer(offerId);
             if (error) {
-                console.log(error);
                 return { success: false, error: 'Failed to delete offer' };
             }
 

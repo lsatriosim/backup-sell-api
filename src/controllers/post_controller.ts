@@ -80,9 +80,7 @@ export class PostController {
                 const response = buildFailed(ERROR_MESSAGES.GET_MY_POST, "Invalid date format. Use dd-MM-yyyy.");
                 return res.status(400).json(response);
             }
-            console.log("fetching get post by date");
             const result = await this.postService.getPostListByDate(parsedDate);
-            console.log(result);
 
             if (result.error) {
                 const response = buildFailed(ERROR_MESSAGES.GET_MY_POST, result.error);

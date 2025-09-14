@@ -47,7 +47,6 @@ export class AuthController {
 
   updateProfile = async (req: Request, res: Response) => {
     try {
-      console.log(req.body);
       const requestBody = req.body;
       const token = req.cookies.token;
       const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
