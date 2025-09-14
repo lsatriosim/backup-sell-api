@@ -4,6 +4,7 @@ import { PostService } from "../services/post_services";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '../constants/user_messages';
 import { buildFailed, buildSuccess } from '../utils/response_builder';
 import { parse } from "date-fns";
+import { CreatePostDto } from 'dtos/post_dto';
 
 export class PostController {
     private postService: PostService
@@ -16,10 +17,10 @@ export class PostController {
         try {
             const requestBody = req.body;
             const token = req.cookies.token;
-            const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string };
+            const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload & { id: string; email: string; accessToken: string };
             const userId = payload.id;
             const status = "OPEN";
-            const postDto = { ...requestBody, userId, status }
+            const postDto: CreatePostDto = { ...requestBody, userId, status }
             const result = await this.postService.createPost(postDto);
 
             if (result.error) {

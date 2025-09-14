@@ -20,6 +20,17 @@ export interface PostDto {
     sportType: string;
 }
 
+export interface CreatePostDto {
+    userId: string; //Foreign key to user
+    locationId: string; //Foreign key to Location
+    minPrice: number;
+    itemCount: number;
+    startDateTime: Date;
+    endDateTime: Date;
+    sportType: string;
+    status: string;
+}
+
 export interface UpdatePostSupabaseDTO extends PostDto {
     updatedAt: Date;
 }

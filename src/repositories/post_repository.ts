@@ -1,12 +1,12 @@
 import supabase from "../lib/supabaseClient";
-import { GetPostByIdServiceResponse, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
+import { CreatePostDto, GetPostByIdServiceResponse, GetPostItemServiceResponse, LocationDTO, PostDto, PostItemResponse, UpdatePostDTO, UpdatePostStatusDTO, UpdatePostSupabaseDTO } from "dtos/post_dto";
 import { CityDTO, RegionDTO } from "dtos/location_dto";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
 import { SellerDTO } from "dtos/user_dto";
 import { startOfDay, endOfDay } from "date-fns";
 
 export class PostRepository {
-    async createPost(dto: PostDto): Promise<{ post: PostItemResponse; error?: any }> {
+    async createPost(dto: CreatePostDto): Promise<{ post: PostItemResponse; error?: any }> {
         let postSupabase = toSnakeCase(dto);
         const { data, error } = await supabase.from("posts").insert(
             postSupabase
