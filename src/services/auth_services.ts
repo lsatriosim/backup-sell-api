@@ -71,8 +71,8 @@ export class AuthService {
         accessToken: accessToken ?? ""
       });
 
-      
       const userResp: UserResponse = {
+        id: user.id,
         email: user.email,
         name: user.name,
         createdAt: new Date(user.created_at),
