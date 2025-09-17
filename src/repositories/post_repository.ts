@@ -97,7 +97,8 @@ export class PostRepository {
             .from("posts_with_details")
             .select("*")
             .gte("start_date_time", start)
-            .lt("start_date_time", end);
+            .lt("start_date_time", end)
+            .order("start_date_time", { ascending: true });
 
         if (error) {
             const response: GetPostItemServiceResponse = {

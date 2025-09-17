@@ -8,7 +8,8 @@ export class OfferRepository {
         const { data, error } = await supabase
             .from("offers_with_details")
             .select("*")
-            .eq("post_id", postId);
+            .eq("post_id", postId)
+            .order("total_price", { ascending: false });
 
         if (error) {
             const response: GetOfferItemServiceResponse = {
