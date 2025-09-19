@@ -229,7 +229,8 @@ export class PostRepository {
         const { data, error } = await supabase
             .from("posts_with_details")
             .select("*")
-            .eq("seller_id", userId);
+            .eq("seller_id", userId)
+            .order("start_date_time", { ascending: true });
 
         if (error) {
             const response: GetPostItemServiceResponse = {
@@ -290,6 +291,72 @@ export class PostRepository {
             posts: postList
         }
         return { response };
+    }
+
+    async getPostsWithMyOffers(userId: string): Promise<{ response: GetPostItemServiceResponse }> {
+        const { data: offerData, error: offerError } = await supabase
+            .from("offers")
+            .select("post_id")
+            .eq("user_id", userId);
+
+        if (offerError) {
+            return { response: { posts: [], error: offerError } };
+        }
+
+        const postIds = (offerData ?? []).map(o => o.post_id);
+
+        if (postIds.length === 0) {
+            return { response: { posts: [] } };
+        }
+
+        const { data, error } = await supabase
+            .from("posts_with_details")
+            .select("*")
+            .in("id", postIds)
+            .order("start_date_time", { ascending: true });
+
+        if (error) {
+            return { response: { posts: [], error } };
+        }
+
+        const postList: PostItemResponse[] = (data ?? []).map(row => {
+            const c = toCamelCase<any>(row);
+
+            const city: CityDTO = { id: c.cityId, name: c.cityName };
+            const region: RegionDTO = { id: c.regionId, name: c.regionName, city };
+            const location: LocationDTO = {
+                id: c.locationId,
+                name: c.locationName,
+                url: c.locationUrl,
+                addressDescription: c.locationAddressDescription,
+                region,
+            };
+            const seller: SellerDTO = {
+                id: c.sellerId,
+                name: c.sellerName,
+                email: c.sellerEmail,
+                phone: c.sellerPhone,
+            };
+
+            return {
+                id: c.id,
+                minPrice: c.minPrice,
+                startDateTime: new Date(c.startDateTime),
+                endDateTime: new Date(c.endDateTime),
+                status: c.status,
+                itemCount: c.itemCount,
+                location,
+                seller,
+                offerCount: c.offerCount,
+                createdAt: new Date(c.createdAt),
+                updatedAt: new Date(c.updatedAt),
+                maxOfferPrice: c.maxOfferPrice,
+                sportType: c.sportType,
+                isBoosted: c.isBoosted,
+            } as PostItemResponse;
+        });
+
+        return { response: { posts: postList } };
     }
 
     async updatePost(dto: UpdatePostDTO): Promise<{ post: PostItemResponse; error?: any }> {

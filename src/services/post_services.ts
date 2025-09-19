@@ -100,6 +100,29 @@ export class PostService {
         }
     }
 
+    async getPostsWithMyOffer(userId: string): Promise<{
+        success: boolean;
+        error?: string;
+        data?: PostItemResponse[];
+    }> {
+        try {
+            const { response } = await this.postRepository.getPostsWithMyOffers(userId);
+            if (response.error) {
+                return { success: false, error: 'Failed to get post with my offer' };
+            }
+
+            return {
+                success: true,
+                data: response.posts,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Failed to get post with my offer'
+            };
+        }
+    }
+
     async getDetailPostById(postId: string): Promise<{
         success: boolean;
         error?: string;
