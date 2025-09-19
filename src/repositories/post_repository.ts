@@ -4,6 +4,7 @@ import { CityDTO, RegionDTO } from "dtos/location_dto";
 import { toCamelCase, toSnakeCase } from "../utils/entity_transformer";
 import { SellerDTO } from "dtos/user_dto";
 import { startOfDay, endOfDay } from "date-fns";
+import { getDayRangeInZone } from "../utils/date_util";
 
 export class PostRepository {
     async createPost(dto: CreatePostDto): Promise<{ post: PostItemResponse; error?: any }> {
@@ -90,9 +91,7 @@ export class PostRepository {
     }
 
     async getPostListByDate(date: Date): Promise<{ response: GetPostItemServiceResponse }> {
-        const start = startOfDay(date).toISOString();
-        const end = endOfDay(date).toISOString();
-
+        const { start, end } = getDayRangeInZone(date, "Asia/Jakarta")
         const { data, error } = await supabase
             .from("posts_with_details")
             .select("*")
