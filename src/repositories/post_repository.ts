@@ -97,6 +97,7 @@ export class PostRepository {
             .select("*")
             .gte("start_date_time", start)
             .lt("start_date_time", end)
+            .eq("status", "OPEN")
             .order("start_date_time", { ascending: true });
 
         if (error) {
